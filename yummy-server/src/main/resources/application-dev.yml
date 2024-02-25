@@ -1,0 +1,8 @@
+yummy:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3307
+    database: yummy_dash
+    username: root
+    password: 123456

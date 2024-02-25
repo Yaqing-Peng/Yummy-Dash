@@ -8,14 +8,14 @@
         <groupId>org.springframework.boot</groupId>
         <version>2.7.3</version>
     </parent>
-    <groupId>com.sky</groupId>
-    <artifactId>sky-take-out</artifactId>
+    <groupId>com.yummy</groupId>
+    <artifactId>yummy-dash</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>sky-common</module>
-        <module>sky-pojo</module>
-        <module>sky-server</module>
+        <module>yummy-common</module>
+        <module>yummy-pojo</module>
+        <module>yummy-server</module>
     </modules>
     <properties>
         <mybatis.spring>2.2.0</mybatis.spring>
@@ -68,7 +68,7 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper}</version>
             </dependency>
-
+<!--            swagger helper: to generate api docs-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-spring-boot-starter</artifactId>
@@ -116,7 +116,7 @@
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi}</version>
             </dependency>
-            <!--微信支付-->
+            <!--wechat pay-->
             <dependency>
                 <groupId>com.github.wechatpay-apiv3</groupId>
                 <artifactId>wechatpay-apache-httpclient</artifactId>
