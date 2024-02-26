@@ -1,16 +1,20 @@
 package com.yummy.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.yummy.constant.MessageConstant;
 import com.yummy.constant.PasswordConstant;
 import com.yummy.constant.StatusConstant;
 import com.yummy.context.BaseContext;
 import com.yummy.dto.EmployeeDTO;
 import com.yummy.dto.EmployeeLoginDTO;
+import com.yummy.dto.EmployeePageQueryDTO;
 import com.yummy.entity.Employee;
 import com.yummy.exception.AccountLockedException;
 import com.yummy.exception.AccountNotFoundException;
 import com.yummy.exception.PasswordErrorException;
 import com.yummy.mapper.EmployeeMapper;
+import com.yummy.result.PageResult;
 import com.yummy.service.EmployeeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -81,6 +86,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setUpdateUser(BaseContext.getCurrentId());
 
         employeeMapper.insert(employee);
+    }
+
+    @Override
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
+
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+
+        long total = page.getTotal();
+        List<Employee> records = page.getResult();
+        return new PageResult(total, records);
     }
 
 }

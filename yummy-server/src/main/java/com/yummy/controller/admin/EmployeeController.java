@@ -3,8 +3,10 @@ package com.yummy.controller.admin;
 import com.yummy.constant.JwtClaimsConstant;
 import com.yummy.dto.EmployeeDTO;
 import com.yummy.dto.EmployeeLoginDTO;
+import com.yummy.dto.EmployeePageQueryDTO;
 import com.yummy.entity.Employee;
 import com.yummy.properties.JwtProperties;
+import com.yummy.result.PageResult;
 import com.yummy.result.Result;
 import com.yummy.service.EmployeeService;
 import com.yummy.utils.JwtUtil;
@@ -13,10 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +87,14 @@ public class EmployeeController {
         log.info("add a new emp: {}", employeeDTO);
         employeeService.save(employeeDTO);
         return Result.success();
+    }
+
+    @GetMapping("/page")
+    @ApiOperation("page query an emp")
+    public Result page(EmployeePageQueryDTO employeePageQueryDTO){
+        log.info("page query an emp:{}", employeePageQueryDTO);
+        PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
+        return Result.success(pageResult);
     }
 
 }
