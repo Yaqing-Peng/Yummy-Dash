@@ -9,7 +9,7 @@ import com.yummy.result.PageResult;
 public interface EmployeeService {
 
     /**
-     * 员工登录
+     * Emp login
      * @param employeeLoginDTO
      * @return
      */
