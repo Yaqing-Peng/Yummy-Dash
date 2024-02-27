@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -90,11 +91,44 @@ public class EmployeeController {
     }
 
     @GetMapping("/page")
-    @ApiOperation("page query an emp")
+    @ApiOperation("Page query an emp")
     public Result page(EmployeePageQueryDTO employeePageQueryDTO){
         log.info("page query an emp:{}", employeePageQueryDTO);
         PageResult pageResult = employeeService.pageQuery(employeePageQueryDTO);
         return Result.success(pageResult);
     }
 
+    @PostMapping("/status/{status}")
+    @ApiOperation("Start or stop an emp account")
+    public Result startOrStop(@PathVariable Integer status, Long id){
+        log.info("tart or stop an emp account: {},{}", status, id);
+        employeeService.startOrStop(status, id);
+        return Result.success();
+    }
+
+    /**
+     * Get emp by id
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("Get emp by id")
+    public Result<Employee> getById(@PathVariable Long id){
+        log.info("Get emp by id: {}", id);
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * Update emp
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("Update emp")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("Update emp: {}", employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 }
