@@ -1,18 +1,9 @@
 package com.yummy.enumeration;
 
 /**
- * 数据库操作类型
+ * sql operation type
  */
 public enum OperationType {
-
-    /**
-     * 更新操作
-     */
     UPDATE,
-
-    /**
-     * 插入操作
-     */
     INSERT
-
 }
