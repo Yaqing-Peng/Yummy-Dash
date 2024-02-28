@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "yummy.alioss")
 @Data
 public class AliOssProperties {
-
     private String endpoint;
     private String accessKeyId;
     private String accessKeySecret;

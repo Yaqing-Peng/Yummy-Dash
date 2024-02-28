@@ -6,3 +6,8 @@ yummy:
     database: yummy_dash
     username: root
     password: 123456
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    access-key-id: LTAI5tGaTx6qK9g2eEPZ1WLw
+    access-key-secret: yatx0OObffH9n2UtNUVTGfklH0hCc9
+    bucket-name: yummy-dash
