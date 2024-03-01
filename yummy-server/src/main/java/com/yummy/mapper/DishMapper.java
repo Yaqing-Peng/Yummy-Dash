@@ -34,7 +34,7 @@ public interface DishMapper {
     void insert(Dish dish);
 
     /**
-     * 菜品分页查询
+     * Dish page query
      *
      * @param dishPageQueryDTO
      * @return
@@ -51,7 +51,7 @@ public interface DishMapper {
     Dish getById(Long id);
 
     /**
-     * 根据主键删除菜品数据
+     * delete dish by id
      *
      * @param id
      */

@@ -40,21 +40,19 @@ public class DishServiceImpl implements DishService {
     private SetmealMapper setmealMapper;
 
     /**
-     * 新增菜品和对应的口味
+     * Add a new dish with flavor
      *
      * @param dishDTO
      */
-    @Transactional
+    @Transactional//ensure dish and flavor consistency
     public void saveWithFlavor(DishDTO dishDTO) {
 
         Dish dish = new Dish();
-
         BeanUtils.copyProperties(dishDTO, dish);
-
-        //向菜品表插入1条数据
+        // 1.insert dish
         dishMapper.insert(dish);
 
-        //获取insert语句生成的主键值
+        // 2.get pk from the above insert
         Long dishId = dish.getId();
 
         List<DishFlavor> flavors = dishDTO.getFlavors();
@@ -62,13 +60,13 @@ public class DishServiceImpl implements DishService {
             flavors.forEach(dishFlavor -> {
                 dishFlavor.setDishId(dishId);
             });
-            //向口味表插入n条数据
+            //3.batch insert flavor data
             dishFlavorMapper.insertBatch(flavors);
         }
     }
 
     /**
-     * 菜品分页查询
+     * Dish page query
      *
      * @param dishPageQueryDTO
      * @return
@@ -80,32 +78,29 @@ public class DishServiceImpl implements DishService {
     }
 
     /**
-     * 菜品批量删除
+     * Batch delete dish by ids
      *
      * @param ids
      */
     @Transactional
     public void deleteBatch(List<Long> ids) {
-        //判断当前菜品是否能够删除---是否存在起售中的菜品？？
+        //check the status of dish, if on sale, can't delete
         for (Long id : ids) {
             Dish dish = dishMapper.getById(id);
             if (dish.getStatus() == StatusConstant.ENABLE) {
-                //当前菜品处于起售中，不能删除
                 throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
             }
         }
 
-        //判断当前菜品是否能够删除---是否被套餐关联了？？
+        //check the linked set meal of dish, if is linked, can't delete
         List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
         if (setmealIds != null && setmealIds.size() > 0) {
-            //当前菜品被套餐关联了，不能删除
             throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         }
 
-        //删除菜品表中的菜品数据
+        //batch delete from dish table and flavor table
         for (Long id : ids) {
             dishMapper.deleteById(id);
-            //删除菜品关联的口味数据
             dishFlavorMapper.deleteByDishId(id);
         }
     }

@@ -11,14 +11,14 @@ import java.util.List;
 public interface DishService {
 
     /**
-     * 新增菜品和对应的口味
+     * Add a new dish with flavor
      *
      * @param dishDTO
      */
     public void saveWithFlavor(DishDTO dishDTO);
 
     /**
-     * 菜品分页查询
+     * Dish page query
      *
      * @param dishPageQueryDTO
      * @return
@@ -26,7 +26,7 @@ public interface DishService {
     PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
 
     /**
-     * 菜品批量删除
+     * Batch delete dish by ids
      *
      * @param ids
      */
