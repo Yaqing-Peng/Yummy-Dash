@@ -33,7 +33,7 @@ public interface DishService {
     void deleteBatch(List<Long> ids);
 
     /**
-     * 根据id查询菜品和对应的口味数据
+     * Get dish with flavor by id
      *
      * @param id
      * @return
@@ -41,7 +41,7 @@ public interface DishService {
     DishVO getByIdWithFlavor(Long id);
 
     /**
-     * 根据id修改菜品基本信息和对应的口味信息
+     * Update dish info
      *
      * @param dishDTO
      */

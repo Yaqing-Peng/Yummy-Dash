@@ -48,4 +48,30 @@ public class DishController {
         dishService.deleteBatch(ids);
         return Result.success();
     }
+
+    /**
+     * Get dish with flavor by id
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("Get dish with flavor by id")
+    public Result<DishVO> getById(@PathVariable Long id){
+        log.info("Get dish with flavor by id :{}", id);
+        DishVO dishVO = dishService.getByIdWithFlavor(id);
+        return Result.success(dishVO);
+    }
+
+    /**
+     * Update dish info
+     * @param dishDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("Update dish info")
+    public Result update(@RequestBody DishDTO dishDTO){
+        log.info("Update dish info: {}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
+        return Result.success();
+    }
 }
