@@ -17,7 +17,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class GlobalExceptionHandler {
 
     /**
-     * 捕获业务异常
+     * catch errors and exceptions
      * @param ex
      * @return
      */

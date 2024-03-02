@@ -25,6 +25,11 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
+    /**
+     * 1.Add a new dish with flavor
+     * @param dishDTO
+     * @return
+     */
     @PostMapping
     @ApiOperation("Add a new dish with flavor")
     public Result save(@RequestBody DishDTO dishDTO){
@@ -33,6 +38,11 @@ public class DishController {
         return Result.success();
     }
 
+    /**
+     * 2.Dish page query
+     * @param dishPageQueryDTO
+     * @return
+     */
     @GetMapping("/page")
     @ApiOperation("Dish page query")
     public Result<PageResult> page(DishPageQueryDTO dishPageQueryDTO){
@@ -41,6 +51,11 @@ public class DishController {
         return Result.success(pageResult);
     }
 
+    /**
+     * 3.Batch delete dish by ids
+     * @param ids
+     * @return
+     */
     @DeleteMapping
     @ApiOperation("Batch delete dish by ids")
     public Result delete(@RequestParam List<Long> ids){
@@ -50,7 +65,7 @@ public class DishController {
     }
 
     /**
-     * Get dish with flavor by id
+     * 4.Get dish with flavor by id
      * @param id
      * @return
      */
@@ -63,7 +78,7 @@ public class DishController {
     }
 
     /**
-     * Update dish info
+     * 5.Update dish info
      * @param dishDTO
      * @return
      */
