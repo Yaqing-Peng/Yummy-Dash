@@ -48,20 +48,44 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @return
      */
     @Bean
-    public Docket docket() {
+    public Docket docket1() {
         log.info("start generating api doc...");
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("Yummy Dash Proj Api Doc")
                 .version("2.0")
                 .description("Yummy Dash proj api doc")
                 .build();
+
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Admin APIs")
                 .apiInfo(apiInfo)
                 .select()
                 //scan all methods and apis in controller
-                .apis(RequestHandlerSelectors.basePackage("com.yummy.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.yummy.controller.admin"))
                 .paths(PathSelectors.any())
                 .build();
+
+        return docket;
+    }
+
+    @Bean
+    public Docket docket2() {
+        log.info("start generating api doc...");
+        ApiInfo apiInfo = new ApiInfoBuilder()
+                .title("Yummy Dash Proj Api Doc")
+                .version("2.0")
+                .description("Yummy Dash proj api doc")
+                .build();
+
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
+                .groupName("User APIs")
+                .apiInfo(apiInfo)
+                .select()
+                //scan all methods and apis in controller
+                .apis(RequestHandlerSelectors.basePackage("com.yummy.controller.user"))
+                .paths(PathSelectors.any())
+                .build();
+
         return docket;
     }
 

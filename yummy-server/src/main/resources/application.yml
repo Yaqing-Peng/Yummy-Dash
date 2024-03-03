@@ -12,11 +12,11 @@ spring:
       url: jdbc:mysql://${yummy.datasource.host}:${yummy.datasource.port}/${yummy.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: ${yummy.datasource.username}
       password: ${yummy.datasource.password}
-    redis:
-      host: ${yummy.redis.host}
-      port: ${yummy.redis.port}
-      password: ${yummy.redis.password}
-      database: ${yummy.redis.database}
+  redis:
+    host: ${yummy.redis.host}
+    port: ${yummy.redis.port}
+    password: ${yummy.redis.password}
+    database: ${yummy.redis.database}
 
 mybatis:
   #mapper config doc
