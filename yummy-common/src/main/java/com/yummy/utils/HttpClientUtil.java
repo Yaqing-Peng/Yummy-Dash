@@ -21,20 +21,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Http工具类
+ * Http Utils
  */
 public class HttpClientUtil {
 
     static final  int TIMEOUT_MSEC = 5 * 1000;
 
     /**
-     * 发送GET方式请求
+     * Send http client get request
      * @param url
      * @param paramMap
      * @return
      */
     public static String doGet(String url,Map<String,String> paramMap){
-        // 创建Httpclient对象
+        // new a http client
         CloseableHttpClient httpClient = HttpClients.createDefault();
 
         String result = "";
@@ -49,13 +49,13 @@ public class HttpClientUtil {
             }
             URI uri = builder.build();
 
-            //创建GET请求
+            //new a get request
             HttpGet httpGet = new HttpGet(uri);
 
-            //发送请求
+            //send request
             response = httpClient.execute(httpGet);
 
-            //判断响应状态
+            //get response and parse
             if(response.getStatusLine().getStatusCode() == 200){
                 result = EntityUtils.toString(response.getEntity(),"UTF-8");
             }
@@ -74,7 +74,7 @@ public class HttpClientUtil {
     }
 
     /**
-     * 发送POST方式请求
+     * Send http client post request
      * @param url
      * @param paramMap
      * @return
