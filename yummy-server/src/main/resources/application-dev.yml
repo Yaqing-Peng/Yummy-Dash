@@ -16,3 +16,6 @@ yummy:
     port: 6379
     password: 123456
     database: 10
+  wechat:
+    appid: wx1be6a7a0500ad449
+    secret: 3eca6a471644b55bbb7943d1ba6cb935
