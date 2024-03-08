@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.yummy.constant.MessageConstant;
 import com.yummy.constant.StatusConstant;
-import com.yummy.context.BaseContext;
 import com.yummy.dto.CategoryDTO;
 import com.yummy.dto.CategoryPageQueryDTO;
 import com.yummy.entity.Category;
@@ -18,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 /**
@@ -66,25 +65,30 @@ public class CategoryServiceImpl implements CategoryService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
+    @Override
+    public void deleteById(Long id) {
+
+    }
+
     /**
      * Delete a category by id
      * @param id
      */
-    public void deleteById(Long id) {
-        Integer count = dishMapper.countByCategoryId(id);
-        if(count > 0){
-            //if current dish category has related dishes, it can't be deleted
-            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
-        }
-
-        count = setmealMapper.countByCategoryId(id);
-        if(count > 0){
-            //if current set meal category has related dishes, it can't be deleted
-            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
-        }
-
-        categoryMapper.deleteById(id);
-    }
+//    public void deleteById(Long id) {
+//        Integer count = dishMapper.countByCategoryId(id);
+//        if(count > 0){
+//            //if current dish category has related dishes, it can't be deleted
+//            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
+//        }
+//
+//        count = setmealMapper.countByCategoryId(id);
+//        if(count > 0){
+//            //if current set meal category has related dishes, it can't be deleted
+//            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
+//        }
+//
+//        categoryMapper.deleteById(id);
+//    }
 
     /**
      * Update a category

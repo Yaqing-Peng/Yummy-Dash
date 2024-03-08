@@ -45,7 +45,7 @@ yummy:
     # user jwt properties
     user-secret-key: itheima
     user-ttl: 7200000
-    user-token-name: token
+    user-token-name: authentication
 
   alioss:
     endpoint: ${yummy.alioss.endpoint}
