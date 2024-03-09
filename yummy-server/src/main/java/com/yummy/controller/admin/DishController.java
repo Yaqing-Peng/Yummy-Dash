@@ -2,6 +2,7 @@ package com.yummy.controller.admin;
 
 import com.yummy.dto.DishDTO;
 import com.yummy.dto.DishPageQueryDTO;
+import com.yummy.entity.Dish;
 import com.yummy.mapper.DishMapper;
 import com.yummy.result.PageResult;
 import com.yummy.result.Result;
@@ -11,9 +12,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -24,6 +27,8 @@ public class DishController {
 
     @Autowired
     private DishService dishService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 1.Add a new dish with flavor
@@ -35,6 +40,9 @@ public class DishController {
     public Result save(@RequestBody DishDTO dishDTO){
         log.info("Add a new dish with flavor");
         dishService.saveWithFlavor(dishDTO);
+        //clean redis cache
+        String key = String.valueOf(dishDTO.getCategoryId());
+        cleanCache(key);
         return Result.success();
     }
 
@@ -61,6 +69,8 @@ public class DishController {
     public Result delete(@RequestParam List<Long> ids){
         log.info("Batch delete dish by ids: {}", ids);
         dishService.deleteBatch(ids);
+        //clean redis cache
+        cleanCache("dish_*");
         return Result.success();
     }
 
@@ -87,6 +97,49 @@ public class DishController {
     public Result update(@RequestBody DishDTO dishDTO){
         log.info("Update dish info: {}", dishDTO);
         dishService.updateWithFlavor(dishDTO);
+        //clean redis cache
+        cleanCache("dish_*");
         return Result.success();
     }
+
+    /**
+     * set dish status
+     *
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("Set dish status")
+    public Result<String> startOrStop(@PathVariable Integer status, Long id) {
+        dishService.startOrStop(status, id);
+
+        //clean redis cache
+        cleanCache("dish_*");
+
+        return Result.success();
+    }
+
+    /**
+     * Get dish list by category id
+     *
+     * @param categoryId
+     * @return
+     */
+    @GetMapping("/list")
+    @ApiOperation("Get dish list by category id")
+    public Result<List<Dish>> list(Long categoryId) {
+        List<Dish> list = dishService.list(categoryId);
+        return Result.success(list);
+    }
+
+    /**
+     * clean redis cache
+     * @param pattern
+     */
+    private void cleanCache(String pattern){
+        Set keys = redisTemplate.keys(pattern);
+        redisTemplate.delete(keys);
+    }
+
 }
