@@ -30,36 +30,36 @@ public class PayNotifyController {
     private WeChatProperties weChatProperties;
 
     /**
-     * 支付成功回调
+     * Payment notification after success
      *
      * @param request
      */
     @RequestMapping("/paySuccess")
     public void paySuccessNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //读取数据
+        //read data
         String body = readData(request);
-        log.info("支付成功回调：{}", body);
+        log.info("Payment notification after success：{}", body);
 
-        //数据解密
+        //decode data
         String plainText = decryptData(body);
-        log.info("解密后的文本：{}", plainText);
+        log.info("decoded text：{}", plainText);
 
         JSONObject jsonObject = JSON.parseObject(plainText);
-        String outTradeNo = jsonObject.getString("out_trade_no");//商户平台订单号
-        String transactionId = jsonObject.getString("transaction_id");//微信支付交易号
+        String outTradeNo = jsonObject.getString("out_trade_no");//business order No.
+        String transactionId = jsonObject.getString("transaction_id");//wechat payment No.
 
-        log.info("商户平台订单号：{}", outTradeNo);
-        log.info("微信支付交易号：{}", transactionId);
+        log.info("business order No.：{}", outTradeNo);
+        log.info("wechat payment No.：{}", transactionId);
 
-        //业务处理，修改订单状态、来单提醒
+        //update order status
         orderService.paySuccess(outTradeNo);
 
-        //给微信响应
+        //respond to wechat
         responseToWeixin(response);
     }
 
     /**
-     * 读取数据
+     * read Data
      *
      * @param request
      * @return
@@ -79,7 +79,7 @@ public class PayNotifyController {
     }
 
     /**
-     * 数据解密
+     * decrypt Data
      *
      * @param body
      * @return
@@ -102,7 +102,7 @@ public class PayNotifyController {
     }
 
     /**
-     * 给微信响应
+     * respond to wechat
      * @param response
      */
     private void responseToWeixin(HttpServletResponse response) throws Exception{
