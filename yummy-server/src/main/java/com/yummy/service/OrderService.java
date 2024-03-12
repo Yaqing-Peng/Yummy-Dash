@@ -1,10 +1,17 @@
 package com.yummy.service;
 
-import com.yummy.dto.OrdersSubmitDTO;
-import com.yummy.vo.OrderSubmitVO;
-import org.springframework.stereotype.Service;
+import com.yummy.dto.*;
+import com.yummy.vo.*;
 
-@Service
 public interface OrderService {
+
+
     OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO);
+
+
+    OrderPaymentVO payment(OrdersPaymentDTO ordersPaymentDTO) throws Exception;
+
+
+    void paySuccess(String outTradeNo);
+
 }

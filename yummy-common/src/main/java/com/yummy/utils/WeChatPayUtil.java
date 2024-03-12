@@ -155,12 +155,12 @@ public class WeChatPayUtil {
     }
 
     /**
-     * 小程序支付
+     * WeChat Mini program payment
      *
-     * @param orderNum    商户订单号
-     * @param total       金额，单位 元
-     * @param description 商品描述
-     * @param openid      微信用户的openid
+     * @param orderNum    order number
+     * @param total       order amount: RMB
+     * @param description order description
+     * @param openid      wechat user openid
      * @return
      */
     public JSONObject pay(String orderNum, BigDecimal total, String description, String openid) throws Exception {
