@@ -26,7 +26,7 @@ public class WebSocketServer {
      */
     @OnOpen
     public void onOpen(Session session, @PathParam("sid") String sid) {
-        System.out.println("Client：" + sid + "built connections");
+        System.out.println("Client：" + sid + " built connections");
         sessionMap.put(sid, session);
     }
 

@@ -57,4 +57,17 @@ public class ShoppingCartController {
         shoppingCartService.cleanShoppingCart();
         return Result.success();
     }
+
+    /**
+     * minus one item at shopping cart
+     * @param shoppingCartDTO
+     * @return
+     */
+    @PostMapping("/sub")
+    @ApiOperation("Minus one item at shopping cart")
+    public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        log.info("minus one item at shopping cart：{}", shoppingCartDTO);
+        shoppingCartService.subShoppingCart(shoppingCartDTO);
+        return Result.success();
+    }
 }

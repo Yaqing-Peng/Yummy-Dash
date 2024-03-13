@@ -47,4 +47,16 @@ public class OrderController {
         log.info("Generate prepay order：{}", orderPaymentVO);
         return Result.success(orderPaymentVO);
     }
+
+    /**
+     * User order reminder
+     * @param id
+     * @return
+     */
+    @PostMapping("/reminder/{id}")
+    @ApiOperation("Order reminder")
+    public Result reminder(@PathVariable Long id){
+        orderService.reminder(id);
+        return Result.success();
+    }
 }
