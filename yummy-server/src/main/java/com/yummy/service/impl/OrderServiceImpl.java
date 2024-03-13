@@ -19,6 +19,7 @@ import com.yummy.vo.OrderPaymentVO;
 import com.yummy.vo.OrderStatisticsVO;
 import com.yummy.vo.OrderSubmitVO;
 import com.yummy.vo.OrderVO;
+import com.yummy.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,8 @@ public class OrderServiceImpl implements OrderService {
     private AddressBookMapper addressBookMapper;
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     /**
      * User submit order
@@ -149,7 +152,7 @@ public class OrderServiceImpl implements OrderService {
      */
     public void paySuccess(String outTradeNo) {
 
-        // get order by id
+        // get order by number
         Orders ordersDB = orderMapper.getByNumber(outTradeNo);
 
         // update order status, payment method, payment status, payment time
@@ -161,6 +164,15 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+        //send msg to client via websocket
+        Map map = new HashMap();
+        map.put("type", 1);
+        map.put("orderId", ordersDB.getId());
+        map.put("content", "out trade number: " + outTradeNo);
+        String jsonString = JSON.toJSONString(map);
+
+        webSocketServer.sendToAllClient(jsonString);
     }
 
 }
