@@ -43,4 +43,33 @@
         where id = #{id}
     </update>
 
+    <select id="getByMap" resultType="java.lang.Double">
+        select Sum(amount) from orders
+        <where>
+            <if test="begin != null">
+                and order_time &gt; #{begin} # greater than
+            </if>
+            <if test="end != null">
+                and order_time &lt; #{end} # less than
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOrderCountByMap" resultType="java.lang.Integer">
+        select Count(*) from orders
+        <where>
+            <if test="begin != null">
+                and order_time &gt; #{begin} # greater than
+            </if>
+            <if test="end != null">
+                and order_time &lt; #{end} # less than
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
 </mapper>

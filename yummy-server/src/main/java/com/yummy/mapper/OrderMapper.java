@@ -6,6 +6,8 @@ import com.yummy.dto.OrdersPageQueryDTO;
 import com.yummy.entity.Orders;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -27,4 +29,8 @@ public interface OrderMapper {
 
     @Select("select * from orders where id = #{id}")
     Orders getById(Long id);
+
+    Double getByMap(Map map);
+
+    Integer getOrderCountByMap(Map map);
 }
