@@ -2,6 +2,7 @@ package com.yummy.service.impl;
 
 import com.github.pagehelper.util.StringUtil;
 import com.yummy.entity.Orders;
+import com.yummy.mapper.OrderDetailMapper;
 import com.yummy.mapper.OrderMapper;
 import com.yummy.mapper.UserMapper;
 import com.yummy.service.ReportService;
@@ -30,6 +31,8 @@ public class ReportServiceImpl implements ReportService {
     private OrderMapper orderMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private OrderDetailMapper orderDetailMapper;
 
     @Override
     public TurnoverReportVO getTurnoverReport(LocalDate begin, LocalDate end) {
@@ -146,7 +149,39 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public SalesTop10ReportVO getTop10SalesReport(LocalDate begin, LocalDate end) {
-        return null;
+        //1.get begin time and end time
+        LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+
+        //2.get  name list
+        //select name, count(*) from order_detail group by name order by count(*) desc
+        List<String> nameList = orderDetailMapper.getNameRank(beginTime, endTime);
+        List<String> top10NameList;
+        if(nameList.size() < 10){
+            top10NameList = nameList;
+            while(top10NameList.size() < 10){
+                top10NameList.add("NULL");
+            }
+        }else{
+            top10NameList = nameList.subList(0, 9);
+        }
+
+        //3.get number list
+        List<Integer> numberList = orderDetailMapper.getCountRank(beginTime, endTime);
+        List<Integer> top10NumberList;
+        if(numberList.size() < 10){
+            top10NumberList = numberList;
+            while(top10NumberList.size() < 10){
+                top10NumberList.add(0);
+            }
+        }else{
+            top10NumberList = numberList.subList(0, 9);
+        }
+
+        return SalesTop10ReportVO.builder()
+                .numberList(StringUtils.join(top10NumberList, ","))
+                .nameList(StringUtils.join(top10NameList, ","))
+                .build();
     }
 
     private List<LocalDate> getDateList(LocalDate begin, LocalDate end){
