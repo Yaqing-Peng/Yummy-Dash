@@ -33,4 +33,6 @@ public interface OrderMapper {
     Double getByMap(Map map);
 
     Integer getOrderCountByMap(Map map);
+
+    List<GoodsSalesDTO> getSalesTop10(LocalDateTime begin, LocalDateTime end);
 }

@@ -1,6 +1,7 @@
 package com.yummy.service.impl;
 
 import com.github.pagehelper.util.StringUtil;
+import com.yummy.dto.GoodsSalesDTO;
 import com.yummy.entity.Orders;
 import com.yummy.mapper.OrderDetailMapper;
 import com.yummy.mapper.OrderMapper;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -73,16 +75,16 @@ public class ReportServiceImpl implements ReportService {
         for (LocalDate date : dateList) {
             LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
             LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
-//            Map map = new HashMap();
-//            map.put("begin", beginTime);
-//            map.put("end", endTime);
+            Map map = new HashMap();
+            map.put("begin", beginTime);
+            Integer total = userMapper.getUserCount(map);
+            map.put("end", endTime);
+            Integer newTotal = userMapper.getUserCount(map);
 
             //get all user count: select count(*) from user where create_time < endTime
-            Integer total = userMapper.getTotalUserCount(endTime);
-            totalUserList.add(total);
             //get user count created within [beginTime, endTime]?
             //select count(*) from user where create_time < endTime  and > beginTime
-            Integer newTotal = userMapper.getNewUserCount(beginTime, endTime);
+            totalUserList.add(total);
             newUserList.add(newTotal);
         }
 
@@ -155,32 +157,40 @@ public class ReportServiceImpl implements ReportService {
 
         //2.get  name list
         //select name, count(*) from order_detail group by name order by count(*) desc
-        List<String> nameList = orderDetailMapper.getNameRank(beginTime, endTime);
-        List<String> top10NameList;
-        if(nameList.size() < 10){
-            top10NameList = nameList;
-            while(top10NameList.size() < 10){
-                top10NameList.add("NULL");
-            }
-        }else{
-            top10NameList = nameList.subList(0, 9);
-        }
+//        List<String> nameList = orderDetailMapper.getNameRank(beginTime, endTime);
+//        List<String> top10NameList;
+//        if(nameList.size() < 10){
+//            top10NameList = nameList;
+//            while(top10NameList.size() < 10){
+//                top10NameList.add("NULL");
+//            }
+//        }else{
+//            top10NameList = nameList.subList(0, 9);
+//        }
+//
+//        //3.get number list
+//        List<Integer> numberList = orderDetailMapper.getCountRank(beginTime, endTime);
+//        List<Integer> top10NumberList;
+//        if(numberList.size() < 10){
+//            top10NumberList = numberList;
+//            while(top10NumberList.size() < 10){
+//                top10NumberList.add(0);
+//            }
+//        }else{
+//            top10NumberList = numberList.subList(0, 9);
+//        }
 
-        //3.get number list
-        List<Integer> numberList = orderDetailMapper.getCountRank(beginTime, endTime);
-        List<Integer> top10NumberList;
-        if(numberList.size() < 10){
-            top10NumberList = numberList;
-            while(top10NumberList.size() < 10){
-                top10NumberList.add(0);
-            }
-        }else{
-            top10NumberList = numberList.subList(0, 9);
-        }
+        //get name and number list from order_detail with order status completed
+        List<GoodsSalesDTO> salesTop10 = orderMapper.getSalesTop10(beginTime, endTime);
+        List<String> names = salesTop10.stream().map(GoodsSalesDTO::getName).collect(Collectors.toList());
+        String nameList = StringUtils.join(names, ",");
+
+        List<Integer> numbers = salesTop10.stream().map(GoodsSalesDTO::getNumber).collect(Collectors.toList());
+        String numberList = StringUtils.join(numbers, ",");
 
         return SalesTop10ReportVO.builder()
-                .numberList(StringUtils.join(top10NumberList, ","))
-                .nameList(StringUtils.join(top10NameList, ","))
+                .numberList(numberList)
+                .nameList(nameList)
                 .build();
     }
 
