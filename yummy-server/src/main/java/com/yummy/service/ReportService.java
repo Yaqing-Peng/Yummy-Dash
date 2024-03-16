@@ -6,6 +6,7 @@ import com.yummy.vo.TurnoverReportVO;
 import com.yummy.vo.UserReportVO;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 
 @Service
@@ -17,5 +18,8 @@ public interface ReportService {
     OrderReportVO getOrderReport(LocalDate begin, LocalDate end);
 
     SalesTop10ReportVO getTop10SalesReport(LocalDate begin, LocalDate end);
+
+    void exportBusinessData(HttpServletResponse response);
 }
+
 
