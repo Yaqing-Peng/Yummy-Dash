@@ -30,7 +30,7 @@ public interface OrderMapper {
     @Select("select * from orders where id = #{id}")
     Orders getById(Long id);
 
-    Double getByMap(Map map);
+    Double getAmountSumByMap(Map map);
 
     Integer getOrderCountByMap(Map map);
 

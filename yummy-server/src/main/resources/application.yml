@@ -53,12 +53,12 @@ yummy:
     access-key-secret: ${yummy.alioss.access-key-secret}
     bucket-name: ${yummy.alioss.bucket-name}
   wechat:
-    appid: ${sky.wechat.appid}
-    secret: ${sky.wechat.secret}
-    mchid : ${sky.wechat.mchid}
-    mchSerialNo: ${sky.wechat.mchSerialNo}
-    privateKeyFilePath: ${sky.wechat.privateKeyFilePath}
-    apiV3Key: ${sky.wechat.apiV3Key}
-    weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath}
-    notifyUrl: ${sky.wechat.notifyUrl}
-    refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
+    appid: ${yummy.wechat.appid}
+    secret: ${yummy.wechat.secret}
+    mchid : ${yummy.wechat.mchid}
+    mchSerialNo: ${yummy.wechat.mchSerialNo}
+    privateKeyFilePath: ${yummy.wechat.privateKeyFilePath}
+    apiV3Key: ${yummy.wechat.apiV3Key}
+    weChatPayCertFilePath: ${yummy.wechat.weChatPayCertFilePath}
+    notifyUrl: ${yummy.wechat.notifyUrl}
+    refundNotifyUrl: ${yummy.wechat.refundNotifyUrl}

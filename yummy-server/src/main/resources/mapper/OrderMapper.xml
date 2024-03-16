@@ -43,7 +43,7 @@
         where id = #{id}
     </update>
 
-    <select id="getByMap" resultType="java.lang.Double">
+    <select id="getAmountSumByMap" resultType="java.lang.Double">
         select Sum(amount) from orders
         <where>
             <if test="begin != null">

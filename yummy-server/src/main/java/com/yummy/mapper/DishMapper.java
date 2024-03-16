@@ -16,50 +16,27 @@ import java.util.Map;
 @Mapper
 public interface DishMapper {
 
-    /**
-     * 根据分类id查询菜品数量
-     *
-     * @param categoryId
-     * @return
-     */
+
     @Select("select count(id) from dish where category_id = #{categoryId}")
     Integer countByCategoryId(Long categoryId);
 
-    /**
-     * 插入菜品数据
-     *
-     * @param dish
-     */
+
     @AutoFill(value = OperationType.INSERT)
     void insert(Dish dish);
 
-    /**
-     * Dish page query
-     *
-     * @param dishPageQueryDTO
-     * @return
-     */
+
     Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
 
-    /**
-     * Get dish by id
-     *
-     * @param id
-     * @return
-     */
+
     @Select("select * from dish where id = #{id}")
     Dish getById(Long id);
 
-    /**
-     * delete dish by id
-     *
-     * @param id
-     */
+
     @Delete("delete from dish where id = #{id}")
     void deleteById(Long id);
 
     /**
-     * 根据id动态修改菜品数据
+     * dynamically update dish by id
      *
      * @param dish
      */
@@ -67,7 +44,7 @@ public interface DishMapper {
     void update(Dish dish);
 
     /**
-     * 动态条件查询菜品
+     * dynamically get dish by conditions
      *
      * @param dish
      * @return
@@ -75,7 +52,7 @@ public interface DishMapper {
     List<Dish> list(Dish dish);
 
     /**
-     * 根据套餐id查询菜品
+     * get dishes by setmeal id
      * @param setmealId
      * @return
      */
@@ -83,9 +60,10 @@ public interface DishMapper {
     List<Dish> getBySetmealId(Long setmealId);
 
     /**
-     * 根据条件统计菜品数量
+     * count dishes by time and status
      * @param map
      * @return
      */
     Integer countByMap(Map map);
+
 }
